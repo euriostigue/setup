@@ -17,6 +17,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'altercation/vim-colors-solarized'
 "Plugin 'lifepillar/vim-solarized8'
+Plugin 'posva/vim-vue'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/syntastic'
@@ -25,6 +26,13 @@ Plugin 'kburdett/vim-nuuid'
 Plugin 'tpope/vim-fugitive'
 Plugin 'kien/ctrlp.vim'
 Plugin 'valloric/YouCompleteMe'
+Plugin 'fatih/vim-go'
+Plugin 'mattn/emmet-vim'
+Plugin 'quramy/tsuquyomi'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'prettier/vim-prettier'
+
+
 
 " " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -52,7 +60,7 @@ set number
 set ruler
 set history=50
 set showcmd
-"filetype plugin indent on
+filetype plugin indent on
 set backspace=eol,indent,start
 set vb
 " Highlights cursor line
@@ -110,7 +118,7 @@ let g:airline_theme='base16_embers'
 " Solarized Settings
 syntax enable
 set background=dark
-let g:solarized_termtrans=1
+"let g:solarized_termtrans=1
 colorscheme solarized
 let g:solarized_termcolors=256
 
@@ -129,16 +137,31 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes':[],'passive_filetypes': [] }
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes':[],'passive_filetypes': ['go'] }
 nnoremap <C-c> :SyntasticCheck<CR>
 
 
 let g:syntastic_filetype_map = {'json': 'javascript'}
-let g:syntastic_javascript_checkers=['']
 let g:syntastic_python_checkers=['pylint']
 "let g:syntastic_python_checkers=['pylint', 'mypy']
 let g:syntastic_python_python_exec = '/usr/bin/python3.6'
+let g:syntastic_javascript_eslint_exec = '$(npm bin)/eslint'
 let g:syntastic_bash_checkers=['shellcheck']
+let g:syntastic_vue_checkers=['eslint']
+let g:syntastic_javascript_checkers=['vue/eslint']
+let g:vue_pre_processors = []
+
+let g:prettier#exec_cmd_async = 1
+
+
+au FileType vue setlocal shiftwidth=2 softtabstop=2 tabstop=2
+au FileType javascript setlocal shiftwidth=2 softtabstop=2 tabstop=2
+au FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2
+
+let g:go_list_type = "quickfix"
+
+" Emmmet
+"let g:user_emmet_leader_key = ","
 
 
 " You complete me
@@ -152,7 +175,7 @@ nnoremap <C-g> :YcmCompleter GetDoc<cr>
 set splitright
 set splitbelow
 
-nnoremap <C-y> :! black -l 80 %
+nnoremap <C-h> :! black -l 80 %
 "Remap move windows
 nnoremap <C-p> <C-w>w
 

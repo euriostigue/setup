@@ -1,4 +1,8 @@
-source "${CLINC_PATH}"/.bash_aliases
+source /usr/share/bash-completion/bash_completion
+
+export PATH=$PATH:/usr/local/go/bin
+export NODE_BIN_PATH=~/akewli/lure/fe/node_modules/.bin
+
 
 # Git config
 git config --global core.editor "vim"
@@ -7,12 +11,20 @@ git config --global user.email "eric@akewli.com"
 git config --global credential.helper cache
 
 
-export TERM=xterm-256color
-export CLICOLOR=1
+#export TERM=xterm-256color
+#export CLICOLOR=1
 
-#alias python="python3.6"
-#alias py="python3.6"
+alias python="python3.6"
+alias py="python3.6"
 alias get-setup="git clone https://github.com/euriostigue/setup.git"
+alias mk="microk8s.kubectl"
+alias mh="microk8s.helm3"
+alias h="helm"
+
+
+microk8s.kubectl config view --raw > $HOME/.kube/microk8s.config
+export  KUBECONFIG=$HOME/.kube/config
+export  KUBECONFIG=$KUBECONFIG:$HOME/.kube/microk8s.config
 
 
 alias gca="git commit --amend --no-edit"
@@ -35,7 +47,7 @@ esac
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
-eval "dircolors ~/.dircolors" > /dev/null
+#eval "dircolors ~/.dircolors" > /dev/null
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -107,3 +119,14 @@ function prod-certs(){
         -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
         quay.io/letsencrypt/letsencrypt:latest auth
 }
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/eric/google-cloud-sdk/path.bash.inc' ]; then . '/home/eric/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/eric/google-cloud-sdk/completion.bash.inc' ]; then . '/home/eric/google-cloud-sdk/completion.bash.inc'; fi
+source <(kubectl completion bash)
+alias k=kubectl
+complete -F __start_kubectl k
+source <(skaffold completion bash)
+export SKAFFOLD_DEFAULT_REPO=localhost:32000
